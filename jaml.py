@@ -3,12 +3,44 @@ from argparse import ArgumentParser
 from pathlib import Path
 import json
 import yaml
+from logging import config, getLogger
 
 parser = ArgumentParser(
     prog="jaml",
     description="hoge"
 )
 parser.add_argument('filename', type=str, default=None, help='setting filename')
+
+LOGGING_COFIG = {
+    'version': 1,
+    'formatters': {
+        'default': {
+            'format': '%(asctime)s:%(name)s:[%(levelname)s]:%(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S'
+        }
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'default'
+        }
+    },
+    'loggers': {
+        '__main__': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False
+        }
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO'
+    }
+}
+
+config.dictConfig(LOGGING_COFIG)
+logger = getLogger(__name__)
 
 
 def jaml():
